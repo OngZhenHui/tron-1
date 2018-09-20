@@ -1,12 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
 public class Game implements Runnable {
   
 	// true if the instructions page is in the frame
-	private boolean instructOn = false;
+	private boolean instruction = false;
 	// true if the high scores are displayed in the frame
 	private boolean scoresOn = false;
 	
@@ -28,37 +27,50 @@ public class Game implements Runnable {
       final JPanel mainMenu = new JPanel();
       mainMenu.setLayout(new BorderLayout());
       mainMenu.setBackground(Color.BLACK);
-      
+
       // main menu screen image
   	 @SuppressWarnings("serial")
       final JComponent pict = new JComponent() {
     	  public void paintComponent(Graphics gc) {
     		  super.paintComponent(gc);
-    		  Picture.draw(gc, "tron0_0.jpg", 0, 0);
+    		  Picture.draw(gc, "background.jpg", 0, 0);
     	  }
       };
+
       // panel for main menu buttons
       final JPanel topMenu = new JPanel();
-      topMenu.setLayout(new GridLayout(1,3));
-      topMenu.setBackground(Color.BLACK);
-      
+      topMenu.setLayout(new GridLayout(1,4));
+      topMenu.setBackground(null);
+
       // buttons for main menu
-	  final JButton play = new JButton(new ImageIcon("play_before.png"));
+	  final JButton play = new JButton(new ImageIcon("start_button.png"));
+        play.setContentAreaFilled(false);
+        play.setBorderPainted(false);
 	  topMenu.add(play);
-	  final JButton instructions = new JButton(
-			  new ImageIcon("instructions_before.png"));
-	  topMenu.add(instructions);
-	  final JButton quit = new JButton(
-			  new ImageIcon("quit_before.png"));
+
+	  final JButton instructions = new JButton(new ImageIcon("controls_button.png"));
+        instructions.setContentAreaFilled(false);
+        instructions.setBorderPainted(false);
+        topMenu.add(instructions);
+
+      final JButton scoreboard = new JButton(new ImageIcon("score_button.png"));
+        scoreboard.setContentAreaFilled(false);
+        scoreboard.setBorderPainted(false);
+      topMenu.add(scoreboard);
+
+	  final JButton quit = new JButton(new ImageIcon("quit_button.png"));
+        quit.setContentAreaFilled(false);
+        quit.setBorderPainted(false);
 	  topMenu.add(quit);
-	  
+
+
 	  // adds components to the main menu panel
 	  mainMenu.add(pict, BorderLayout.CENTER);
 	  mainMenu.add(topMenu, BorderLayout.SOUTH);
-	  
+
 	  // adds main menu panel to the frame
 	  frame.add(mainMenu);
-	  
+
 	  // instructions image
 	 @SuppressWarnings("serial")
 	  final JComponent instrPict = new JComponent() {
@@ -232,29 +244,33 @@ public class Game implements Runnable {
        *						  										    
        */
 	  play.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  frame.remove(mainMenu);
-			  frame.add(playMenu);
-			  frame.update(frame.getGraphics());
-			  playMenu.revalidate();
-		  }
+          public void actionPerformed(ActionEvent e) {
+              frame.remove(mainMenu);
+              frame.setLayout(new BorderLayout());
+              frame.add(levelTwoPlayer, BorderLayout.CENTER);
+              frame.add(twoMenu, BorderLayout.SOUTH);
+              frame.update(frame.getGraphics());
+              levelTwoPlayer.requestFocusInWindow();
+              levelTwoPlayer.revalidate();
+              levelTwoPlayer.reset();
+          }
 	  });
-	  
+
 	  instructions.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
-			  if (instructOn) {
+			  if (instruction) {
 				  mainMenu.remove(instrPict);
 				  mainMenu.add(pict);
 				  instructions.setIcon(
-						  new ImageIcon("instructions_before.png"));
-			  } else if (!instructOn) {
+						  new ImageIcon("controls_button.png"));
+			  } else if (!instruction) {
 				  mainMenu.remove(pict);
 				  mainMenu.add(instrPict);
-				  instructions.setIcon(new ImageIcon("main_menu.png"));
+				  instructions.setIcon(new ImageIcon("back_button.png"));
 			  }
 			  mainMenu.revalidate();
 			  frame.repaint();
-			  instructOn = !instructOn;
+			  instruction = !instruction;
 		  }
 	  });
 	  
