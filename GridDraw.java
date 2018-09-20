@@ -91,10 +91,10 @@ public class GridDraw extends Grid {
 
 	// sets the players' scores and displays the boost left in game
 	public void setScore() {
-		score1.setText("   P1 Score: " + ++p1_score + "    Boost: " + player.getBoostsLeft());
+		score1.setText("   P1 - " + p1_name + ": " + ++p1_score + "    Boost: " + player.getBoostsLeft());
 		score1.repaint();
 
-		score2.setText("   P2 Score: " + ++p2_score + "    Boost: " + player2.getBoostsLeft());
+		score2.setText("   P2 - " + p2_name + ": " + ++p2_score + "    Boost: " + player2.getBoostsLeft());
 		score2.repaint();
 	}
 

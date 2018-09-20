@@ -1,4 +1,4 @@
-import java.awt.*;
+	import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
@@ -14,7 +14,11 @@ public abstract class Grid extends JComponent {
 					  Color.BLUE, Color.ORANGE, Color.RED, Color.GREEN};
 	
 	Random rand = new Random();
-	
+
+	//declare player name as blank first
+	String p1_name;
+	String p2_name;
+
 	// court dimensions
 	int MAPWIDTH = 500;
 	int MAPHEIGHT = 500;	
@@ -34,6 +38,12 @@ public abstract class Grid extends JComponent {
 	
 	// constructor adds KeyListeners and initializes fields
 	public Grid(JLabel sco1, JLabel sco2, int p) {
+		//asks for player 1 and 2 name at the start
+		p1_name = JOptionPane.showInputDialog(null, "Enter name of player 1:", "Player 1",
+				JOptionPane.INFORMATION_MESSAGE);
+		p2_name = JOptionPane.showInputDialog(null, "Enter name of player 2:", "Player 2",
+				JOptionPane.INFORMATION_MESSAGE);
+
 		setBackground(Color.WHITE);
 		if (p > 8) { p = 8; }
 		this.players = new Player[p];
@@ -77,7 +87,7 @@ public abstract class Grid extends JComponent {
 			}
 		});
 	}
-	
+
 	// returns an array of velocities and dimensions for a Player
 	// ensures that the Player moves toward the center initially
 	public int[] getRandomStart() {

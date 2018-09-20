@@ -8,7 +8,7 @@ public class Game implements Runnable {
 	private boolean instruction = false;
 	// true if the high scores are displayed in the frame
 	private boolean scoresOn = false;
-	
+
 	public void run() {
 	   
       // Top-level frame
@@ -81,12 +81,8 @@ public class Game implements Runnable {
 	  };
 
 
-      /**
-       * 
-       *  Two-player Menu
-       * 
-       */
-	  // panel that holds the buttons and labels for two-player mode
+
+	  // panel that holds the buttons and labels
 	  final JPanel inGameMenu = new JPanel();
 	  inGameMenu.setLayout(new GridLayout(1,4));
 	  inGameMenu.setBackground(Color.BLACK);
@@ -117,9 +113,9 @@ public class Game implements Runnable {
         exitToMenu.setBorderPainted(false);
 	  inGameMenu.add(exitToMenu);
 	  
-	  // the two-player level
-      final GridDraw levelTwoPlayer = new GridDraw(scoreTwo1, inGameScore, 2);
-      levelTwoPlayer.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+	  // map
+      final GridDraw intialiseGame = new GridDraw(scoreTwo1, inGameScore, 2);
+      intialiseGame.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
 
       /**
@@ -145,12 +141,12 @@ public class Game implements Runnable {
               }
               frame.remove(mainMenu);
               frame.setLayout(new BorderLayout());
-              frame.add(levelTwoPlayer, BorderLayout.CENTER);
+              frame.add(intialiseGame, BorderLayout.CENTER);
               frame.add(inGameMenu, BorderLayout.SOUTH);
               frame.update(frame.getGraphics());
-              levelTwoPlayer.requestFocusInWindow();
-              levelTwoPlayer.revalidate();
-              levelTwoPlayer.reset();
+              intialiseGame.requestFocusInWindow();
+              intialiseGame.revalidate();
+              intialiseGame.reset();
           }
 	  });
 
@@ -200,7 +196,7 @@ public class Game implements Runnable {
                       instruction = !instruction;
                   }
 				  mainMenu.remove(pict);
-				  mainMenu.add(levelTwoPlayer.getHighs());
+				  mainMenu.add(intialiseGame.getHighs());
 				  scoreboard.setIcon(new ImageIcon("back_button.png"));
 			  }
 			  scoresOn = !scoresOn;
@@ -212,18 +208,18 @@ public class Game implements Runnable {
 
 	  resetGame.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
-			  levelTwoPlayer.reset();
+			  intialiseGame.reset();
 		  }
 	  });
 	  
 	  exitToMenu.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
-			  frame.remove(levelTwoPlayer);
+			  frame.remove(intialiseGame);
 			  frame.remove(inGameMenu);
 			  frame.add(mainMenu);
 			  frame.update(frame.getGraphics());
 			  mainMenu.revalidate();
-			  levelTwoPlayer.restartGame();
+			  intialiseGame.restartGame();
 		  }
 	  });
 	  
@@ -234,7 +230,7 @@ public class Game implements Runnable {
       frame.setVisible(true);
 
       // start the game running
-      levelTwoPlayer.reset();
+      intialiseGame.reset();
    }
    
    /*
