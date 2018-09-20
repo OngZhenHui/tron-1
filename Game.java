@@ -33,7 +33,7 @@ public class Game implements Runnable {
       final JComponent pict = new JComponent() {
     	  public void paintComponent(Graphics gc) {
     		  super.paintComponent(gc);
-    		  Picture.draw(gc, "background.jpg", 0, 0);
+    		  imageStorage.draw(gc, "background.jpg", 0, 0);
     	  }
       };
 
@@ -76,101 +76,20 @@ public class Game implements Runnable {
 	  final JComponent instrPict = new JComponent() {
 		  public void paintComponent(Graphics gc) {
 			  super.paintComponent(gc);
-			  Picture.draw(gc, "instructions_page.png", 0, 0);
+			  imageStorage.draw(gc, "instructions_page.png", 0, 0);
 		  }
 	  };
-	  
-	  /**
-	   * 
-	   *  Menu from 'Play'
-	   * 
-	   */
-	  // play menu panel that replaces the main menu panel
-	  final JPanel playMenu = new JPanel();
-	  playMenu.setLayout(new BorderLayout());
-	  playMenu.setBackground(Color.BLACK);
-	  
-	  // panel that displays an image or high scores and game type buttons
-	  final JPanel playMenuUpper = new JPanel();
-	  playMenuUpper.setLayout(new GridLayout(2, 1));
-	  playMenuUpper.setBackground(Color.BLACK);
-	 
-	  // panel that holds the buttons for each game type
-	  final JPanel modes = new JPanel();
-	  modes.setLayout(new GridLayout(1,3));
-	  modes.setBackground(Color.BLACK);
-	  
-	  // buttons for playMenuUpper
-	  final JButton story = new JButton(new ImageIcon("story.png"));
-	  modes.add(story);
-	  final JButton survival = new JButton(new ImageIcon("survival.png"));
-	  modes.add(survival);
-	  final JButton twoPlayer = new JButton(new ImageIcon("two_player.png"));
-	  modes.add(twoPlayer);
-	  
-	  // an image to be displayed by playMenuUpper
-	 @SuppressWarnings("serial")
-	  final JComponent menuPict = new JComponent() {
-		 public void paintComponent(Graphics gc) {
-			 super.paintComponent(gc);
-			 Picture.draw(gc, "play_menu.jpg", 0, 0);
-		 }
-	  };
-	  
-	  // adds panels to playMenuUpper
-	  playMenuUpper.add(modes);
-	  playMenuUpper.add(menuPict);
-	  
-	  // panel that hold high score and main menu buttons
-	  final JPanel bottomMenu = new JPanel();
-	  bottomMenu.setBackground(Color.BLACK);
-	  
-	  // buttons for bottomMenu
-	  final JButton highScores = new JButton(new ImageIcon("high_scores.png"));
-	  bottomMenu.add(highScores);
-	  final JButton back = new JButton(new ImageIcon("main_menu.png"));
-	  bottomMenu.add(back);
-	  
-	  // adds bottomMenu and playMenuUpper to playMenu
-	  playMenu.add(playMenuUpper, BorderLayout.CENTER);	  
-	  playMenu.add(bottomMenu, BorderLayout.SOUTH);
-	  
-	  /**
-	   * 
-	   *  Survival Level Menu
-	   * 
-	   */
-	  // panel that holds the buttons and label for the survival mode
-	  final JPanel survMenu = new JPanel();
-	  survMenu.setLayout(new GridLayout(1,3));
-	  survMenu.setBackground(Color.BLACK);
-	  
-	  // label for the score and boost left
-	  final JLabel score = new JLabel("   Score: 0" + "   Boost: 3");
-	  score.setForeground(Color.WHITE);
-	  score.setBackground(Color.BLACK);
-	  survMenu.add(score);
-	  
-	  
-	  // buttons for returning to the menu and reseting the game
-	  final JButton reset = new JButton(new ImageIcon("restart.png"));
-	  survMenu.add(reset);
-	  final JButton exit = new JButton(new ImageIcon("play_before.png"));
-	  survMenu.add(exit);
-	  
-	  // the survival level
-      final TronMapSurvival levelSurv = new TronMapSurvival(score, 1);
-      levelSurv.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-      
+
+
       /**
        * 
-       *  Two-player Level Menu
+       *  Two-player Menu
        * 
        */
 	  // panel that holds the buttons and labels for two-player mode
-	  final JPanel twoMenu = new JPanel();
-	  twoMenu.setLayout(new GridLayout(1,4));
-	  twoMenu.setBackground(Color.BLACK);
+	  final JPanel inGameMenu = new JPanel();
+	  inGameMenu.setLayout(new GridLayout(1,4));
+	  inGameMenu.setBackground(Color.BLACK);
 	  
 	  // panel that holds the scores and boost for each player
 	  final JPanel scoresTwo = new JPanel();
@@ -182,62 +101,27 @@ public class Game implements Runnable {
 	  scoreTwo1.setForeground(Color.WHITE);
 	  scoreTwo1.setBackground(Color.BLACK);
 	  scoresTwo.add(scoreTwo1);
-	  final JLabel scoreTwo2 = new JLabel("   Player 2: 0" + "    Boost: 3");
-	  scoreTwo2.setForeground(Color.WHITE);
-	  scoreTwo2.setBackground(Color.BLACK);
-	  scoresTwo.add(scoreTwo2);
-	  twoMenu.add(scoresTwo);
+	  final JLabel inGameScore = new JLabel("   Player 2: 0" + "    Boost: 3");
+	  inGameScore.setForeground(Color.WHITE);
+	  inGameScore.setBackground(Color.BLACK);
+	  scoresTwo.add(inGameScore);
+	  inGameMenu.add(scoresTwo);
 	  
 	  // the reset and main menu buttons for two-player mode
-	  final JButton resetTwo = new JButton(new ImageIcon("restart.png"));
-	  twoMenu.add(resetTwo);
-	  final JButton exitTwo = new JButton(new ImageIcon("play_before.png"));
-	  twoMenu.add(exitTwo);
+	  final JButton resetGame = new JButton(new ImageIcon("restart_button.png"));
+        resetGame.setContentAreaFilled(false);
+        resetGame.setBorderPainted(false);
+	  inGameMenu.add(resetGame);
+	  final JButton exitToMenu = new JButton(new ImageIcon("menu_button.png"));
+        exitToMenu.setContentAreaFilled(false);
+        exitToMenu.setBorderPainted(false);
+	  inGameMenu.add(exitToMenu);
 	  
 	  // the two-player level
-      final TronMapTwoPlayer levelTwoPlayer = 
-    		  new TronMapTwoPlayer(scoreTwo1, scoreTwo2, 2);
+      final GridDraw levelTwoPlayer = new GridDraw(scoreTwo1, inGameScore, 2);
       levelTwoPlayer.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-	 
-      /**
-       * 
-       *  Story Level Menu
-       * 
-       */
-      // panel that holds the buttons and labels for story mode
-	  final JPanel storyMenu = new JPanel();
-	  storyMenu.setLayout(new GridLayout(1,4));
-	  storyMenu.setBackground(Color.BLACK);
-	  
-	  // panel that holds the score, level number, and boost
-	  final JPanel scoresStory = new JPanel();
-	  scoresStory.setLayout(new GridLayout(2,1));
-	  scoresStory.setBackground(Color.BLACK);
 
-	  // labels for score, level, and boost left
-	  final JLabel scoreStory1 = 
-			  new JLabel("     Score: = 0" + "    Level: 1");
-	  scoreStory1.setForeground(Color.WHITE);
-	  scoreStory1.setBackground(Color.BLACK);
-	  scoresStory.add(scoreStory1);
-	  final JLabel scoreStory2 = 
-			  new JLabel("             Boost: 3");
-	  scoreStory2.setForeground(Color.WHITE);
-	  scoreStory2.setBackground(Color.BLACK);
-	  scoresStory.add(scoreStory2);
-	  storyMenu.add(scoresStory);
-	  
-	  // buttons for reseting the game and returning to the play menu
-	  final JButton resetStory = new JButton(new ImageIcon("restart.png"));
-	  storyMenu.add(resetStory);
-	  final JButton exitStory = new JButton(new ImageIcon("play_before.png"));
-	  storyMenu.add(exitStory);
-	  
-	  // the story level
-      final TronMapStory levelStory = 
-    		  new TronMapStory(scoreStory1, scoreStory2, 2);
-      levelStory.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-      
+
       /**
        *						    										
        *  Adding action listeners 					
@@ -245,10 +129,24 @@ public class Game implements Runnable {
        */
 	  play.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
+              //reset instructions and highscore page
+              if (instruction) {
+                  mainMenu.remove(instrPict);
+                  mainMenu.add(pict);
+                  instructions.setIcon(new ImageIcon("controls_button.png"));
+                  instruction = !instruction;
+              }
+              else if (scoresOn){
+                  mainMenu.removeAll();
+                  mainMenu.add(pict, BorderLayout.CENTER);
+                  mainMenu.add(topMenu, BorderLayout.SOUTH);
+                  scoreboard.setIcon(new ImageIcon("score_button.png"));
+                  scoresOn = !scoresOn;
+              }
               frame.remove(mainMenu);
               frame.setLayout(new BorderLayout());
               frame.add(levelTwoPlayer, BorderLayout.CENTER);
-              frame.add(twoMenu, BorderLayout.SOUTH);
+              frame.add(inGameMenu, BorderLayout.SOUTH);
               frame.update(frame.getGraphics());
               levelTwoPlayer.requestFocusInWindow();
               levelTwoPlayer.revalidate();
@@ -261,12 +159,19 @@ public class Game implements Runnable {
 			  if (instruction) {
 				  mainMenu.remove(instrPict);
 				  mainMenu.add(pict);
-				  instructions.setIcon(
-						  new ImageIcon("controls_button.png"));
-			  } else if (!instruction) {
-				  mainMenu.remove(pict);
-				  mainMenu.add(instrPict);
-				  instructions.setIcon(new ImageIcon("back_button.png"));
+				  instructions.setIcon(new ImageIcon("controls_button.png"));
+			  }
+			  else if (!instruction) {
+				  if (scoresOn) {
+                      mainMenu.removeAll();
+                      mainMenu.add(pict, BorderLayout.CENTER);
+                      mainMenu.add(topMenu, BorderLayout.SOUTH);
+                      scoreboard.setIcon(new ImageIcon("score_button.png"));
+                      scoresOn = !scoresOn;
+                  }
+                  mainMenu.remove(pict);
+                  mainMenu.add(instrPict);
+                  instructions.setIcon(new ImageIcon("back_button.png"));
 			  }
 			  mainMenu.revalidate();
 			  frame.repaint();
@@ -280,129 +185,56 @@ public class Game implements Runnable {
 		  }
 	  });
 	  
-	  highScores.addActionListener(new ActionListener() {
+	  scoreboard.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
 			  if (scoresOn) {
-				  playMenuUpper.removeAll();
-				  playMenuUpper.add(modes);
-				  playMenuUpper.add(menuPict);
+				  mainMenu.removeAll();
+				  mainMenu.add(pict, BorderLayout.CENTER);
+				  mainMenu.add(topMenu, BorderLayout.SOUTH);
+				  scoreboard.setIcon(new ImageIcon("score_button.png"));
 			  } else if (!scoresOn) {
-				  playMenuUpper.remove(menuPict);
-				  playMenuUpper.add(levelSurv.getHighs());
+                  if (instruction) {
+                      mainMenu.remove(instrPict);
+                      mainMenu.add(pict);
+                      instructions.setIcon(new ImageIcon("controls_button.png"));
+                      instruction = !instruction;
+                  }
+				  mainMenu.remove(pict);
+				  mainMenu.add(levelTwoPlayer.getHighs());
+				  scoreboard.setIcon(new ImageIcon("back_button.png"));
 			  }
 			  scoresOn = !scoresOn;
-			  playMenuUpper.revalidate();
+			  mainMenu.revalidate();
 			  frame.repaint();
 		  }
 	  });
 	  
-	  back.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  frame.remove(playMenu);
-			  frame.add(mainMenu);
-			  frame.update(frame.getGraphics());
-		  }
-	  });
-	  
-	  survival.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  frame.remove(playMenu);
-			  frame.setLayout(new BorderLayout());
-			  frame.add(levelSurv, BorderLayout.CENTER);
-			  frame.add(survMenu, BorderLayout.SOUTH);
-			  frame.update(frame.getGraphics());
-			  levelSurv.requestFocusInWindow();
-			  levelSurv.revalidate();
-			  levelSurv.reset();
-		  }
-	  });
 
-	 
-	  reset.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  levelSurv.reset();
-		  }
-	  });
-	  
-	  exit.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  frame.remove(levelSurv);
-			  frame.remove(survMenu);
-			  frame.add(playMenu);
-			  frame.update(frame.getGraphics());
-			  playMenu.revalidate();
-		  }
-	  });
-	  
-	  twoPlayer.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  frame.remove(playMenu);
-			  frame.setLayout(new BorderLayout());
-			  frame.add(levelTwoPlayer, BorderLayout.CENTER);
-			  frame.add(twoMenu, BorderLayout.SOUTH);
-			  frame.update(frame.getGraphics());
-			  levelTwoPlayer.requestFocusInWindow();
-			  levelTwoPlayer.revalidate();
-			  levelTwoPlayer.reset();
-		  }
-	  });
-	  
-	  resetTwo.addActionListener(new ActionListener() {
+	  resetGame.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
 			  levelTwoPlayer.reset();
 		  }
 	  });
 	  
-	  exitTwo.addActionListener(new ActionListener() {
+	  exitToMenu.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {
 			  frame.remove(levelTwoPlayer);
-			  frame.remove(twoMenu);
-			  frame.add(playMenu);
+			  frame.remove(inGameMenu);
+			  frame.add(mainMenu);
 			  frame.update(frame.getGraphics());
-			  playMenu.revalidate();
+			  mainMenu.revalidate();
 			  levelTwoPlayer.restartGame();
 		  }
 	  });
 	  
-	  story.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  frame.remove(playMenu);
-			  frame.setLayout(new BorderLayout());
-			  frame.add(levelStory, BorderLayout.CENTER);
-			  frame.add(storyMenu, BorderLayout.SOUTH);
-			  frame.update(frame.getGraphics());
-			  levelStory.requestFocusInWindow();
-			  levelStory.revalidate();
-			  levelStory.reset();
-		  }
-	  });
-	  
-	  resetStory.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			  levelStory.reset();
-		  }
-	  });
-	  
-	  exitStory.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent e) {
-			 // frame.setLayout(null);
-			  frame.remove(levelStory);
-			  frame.remove(storyMenu);
-			  frame.add(playMenu);
-			  frame.update(frame.getGraphics());
-			  playMenu.revalidate();
-		  }
-	  });
-	  
+
       // put the frame on the screen
       frame.pack();
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setVisible(true);
 
       // start the game running
-      levelSurv.reset();
       levelTwoPlayer.reset();
-      levelStory.reset();
    }
    
    /*

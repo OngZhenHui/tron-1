@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
-public abstract class Player extends GameObject {
+public abstract class Player extends bikeMovement {
 	
 	// player's colors
 	Color color;
@@ -30,7 +30,7 @@ public abstract class Player extends GameObject {
 	Timer boostTimer;
 		
 	// Player object's path
-	ArrayList<Shape> lines = new ArrayList<Shape>();
+	ArrayList<lightCycleBike> lines = new ArrayList<lightCycleBike>();
 	
 	// constructor initializes initial conditions, timer, and color
 	public Player(int randX, int randY, int velx, int vely, Color color) {
@@ -105,7 +105,7 @@ public abstract class Player extends GameObject {
 	public void draw(Graphics g) {
 		g.setColor(color);
 		g.fillRect(x - WIDTH/2, y - HEIGHT/2, WIDTH, HEIGHT);
-		for (Shape k: lines) {
+		for (lightCycleBike k: lines) {
 			k.draw(g);
 		}
 	}
@@ -116,13 +116,13 @@ public abstract class Player extends GameObject {
 	}
 	
 	// returns the Player's path
-	public ArrayList<Shape> getPath() {
+	public ArrayList<lightCycleBike> getPath() {
 		return lines;
 	}
 	
 	// checks if the Player has crashed with a path
-	public void crash(Intersection i) {
-		if (i == Intersection.UP) {
+	public void crash(collision i) {
+		if (i == collision.UP) {
 			velocityX = 0;
 			velocityY = 0;
 			alive = false;
